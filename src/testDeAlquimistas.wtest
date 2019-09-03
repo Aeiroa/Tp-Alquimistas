@@ -1,0 +1,91 @@
+import Alquimistas.*
+
+describe "testDelAlquimista"{
+	
+test "Un alquimista tiene criterio si no tiene items de combate" {
+	assert.that(alquimista.tieneCriterio())
+}
+
+test "Un alquimista tiene criterio si tiene items de combate"{
+	alquimista.agregarItemDeCombate(bomba)
+	alquimista.agregarItemDeCombate(pocion)
+	assert.that(alquimista.tieneCriterio())
+}
+
+test "Un alquimista no tiene criterio si tiene items de combate"{
+	bomba.dejarEnCero()
+	pocion.dejarEnCero()
+	alquimista.agregarItemDeCombate(bomba)
+	alquimista.agregarItemDeCombate(pocion)
+	assert.notThat(alquimista.tieneCriterio())
+}
+	
+test "Un alquimista es buen explorador"{
+	alquimista.agregarItemDeRecoleccion(bomba)
+	alquimista.agregarItemDeRecoleccion(pocion)
+	alquimista.agregarItemDeRecoleccion(debilitador)
+	assert.that(alquimista.esBuenExplorador())
+}
+
+test "Un alquimista no es buen explorador sin tener items de recolección"{
+	assert.notThat(alquimista.esBuenExplorador())
+}
+
+test "Un alquimista no es buen explorador teniendo items de recolección"{
+	alquimista.agregarItemDeRecoleccion(bomba)
+	alquimista.agregarItemDeRecoleccion(pocion)
+	assert.notThat(alquimista.esBuenExplorador())
+}
+
+test "Capacidad ofensiva de la bomba"{
+	assert.that(bomba.capacidadOfensiva() == 75)
+}
+
+test "Capacidad ofensiva de la poción sin materiales místicos" {
+	pocion.agregarMaterial(material)
+	pocion.agregarMaterial(material)
+	pocion.agregarMaterial(material)
+	assert.that(pocion.capacidadOfensiva() == 60)
+}
+
+
+test "Capacidad ofensiva de la poción con materiales místicos"{
+	pocion.agregarMaterial(materialMistico)
+	pocion.agregarMaterial(materialMistico)
+	assert.that(pocion.capacidadOfensiva() == 80)
+}
+
+ 
+test "Capacidad ofensiva del debilitador sin materiales místicos"{
+	debilitador.agregarMaterial(material)
+	debilitador.agregarMaterial(material)
+	assert.that(debilitador.capacidadOfensiva() == 5)
+}
+
+
+test "Capacidad ofensiva del debilidator con materiales místicos"{
+	debilitador.agregarMaterial(materialMistico)
+	debilitador.agregarMaterial(materialMistico)
+	assert.that(debilitador.capacidadOfensiva() == 24)
+}
+ 
+ 
+test "Capacidad ofensiva del alquimista teniendo items de combate"{ //--- terminar
+	alquimista.agregarItemDeCombate(bomba) //75
+	pocion.agregarMaterial(materialMistico) 
+	pocion.agregarMaterial(material)
+	alquimista.agregarItemDeCombate(pocion) //70
+	debilitador.agregarMaterial(materialMistico)
+	debilitador.agregarMaterial(material)
+	alquimista.agregarItemDeCombate(debilitador) //12
+
+	assert.that(alquimista.capacidadOfensiva() == 157)
+}
+
+
+test "Capacidad ofensiva del alquimista sin items de combate"{
+	assert.that(alquimista.capacidadOfensiva() == 0)
+}
+
+ 
+}
